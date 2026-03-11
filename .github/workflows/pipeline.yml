@@ -34,6 +34,9 @@ jobs:
         working-directory: dbt_project/payments
         run: dbt test --profiles-dir .
 
+      - name: Run Great Expectations validation
+        run: python tests/validate_data.py
+
       - name: Commit updated data
         run: |
           git config user.name "github-actions"
