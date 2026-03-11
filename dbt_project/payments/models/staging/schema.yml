@@ -1,0 +1,25 @@
+version: 2
+
+models:
+  - name: stg_transactions
+    description: "Cleaned and standardised payment transactions"
+    columns:
+      - name: transaction_id
+        description: "Unique transaction identifier"
+        tests:
+          - unique
+          - not_null
+      - name: amount
+        description: "Transaction amount"
+        tests:
+          - not_null
+      - name: status
+        description: "Transaction status"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ["approved", "declined", "pending", "reversed"]
+      - name: country
+        description: "Country code"
+        tests:
+          - not_null

@@ -1,0 +1,9 @@
+.venv/
+.env
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+dbt_project/payments/target/
+dbt_project/payments/dbt_packages/
+logs/
