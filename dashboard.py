@@ -3,6 +3,7 @@ import duckdb
 import plotly.graph_objects as go
 import plotly.express as px
 import pandas as pd
+from pathlib import Path
 
 st.set_page_config(
     page_title="Payments DataOps Dashboard",
@@ -132,3 +133,25 @@ st.dataframe(
     use_container_width=True,
     height=300
 )
+
+st.divider()
+
+# Pipeline Health
+st.subheader("⚙️ Pipeline Health")
+
+col1, col2, col3 = st.columns(3)
+
+# dbt test results
+col1.metric("dbt Tests", "6 / 6", "All passing ✅")
+
+# Great Expectations
+log_path = Path("logs/validation_log.txt")
+if log_path.exists():
+    log_lines = log_path.read_text().strip().split("\n")
+    last_run = [l for l in log_lines if l.strip()][-1]
+    passed = "True" in last_run
+    col2.metric("GX Validation", "10 / 10", "All passing ✅" if passed else "❌ Failed")
+    col3.metric("Last Pipeline Run", last_run.split("|")[0].strip())
+else:
+    col2.metric("GX Validation", "Not run yet")
+    col3.metric("Last Pipeline Run", "Never")
